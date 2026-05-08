@@ -21,7 +21,6 @@ class Order(Base):
     created_at : Mapped[datetime] = mapped_column(DateTime(timezone=True),server_default=func.now())
     user_id : Mapped[int] = mapped_column(ForeignKey("users.id"))
 
-    #Relationships
     user : Mapped["User"] = relationship(back_populates="orders")
     items : Mapped[List["OrderItem"]] = relationship(back_populates="order", cascade="all, delete-orphan")
     payment : Mapped["Payment"] = relationship(back_populates="order",uselist=False)
@@ -34,7 +33,6 @@ class OrderItem(Base) :
     order_id : Mapped[int] = mapped_column(ForeignKey("orders.id"))
     product_id : Mapped[int] = mapped_column(ForeignKey("products.id"))
 
-    #Relationships
     order : Mapped["Order"] = relationship(back_populates = "items")
     product : Mapped["Product"] = relationship(back_populates = "order_items")
     

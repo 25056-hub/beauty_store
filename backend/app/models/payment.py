@@ -21,5 +21,4 @@ class Payment(Base):
     order_id : Mapped[int] = mapped_column(ForeignKey("orders.id"))
     transaction_id : Mapped[str | None] = mapped_column(String(255), nullable=True)
 
-    #Relationships
     order : Mapped["Order"] = relationship(back_populates="payment")

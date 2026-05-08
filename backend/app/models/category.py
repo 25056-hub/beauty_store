@@ -9,5 +9,4 @@ class Category(Base):
     name : Mapped[str] = mapped_column(String(100),unique=True,nullable=False)
     description : Mapped[str|None] = mapped_column(String(500),nullable=True)
 
-    #Relationships
     products : Mapped[List["Product"]] = relationship("Product",back_populates="category")

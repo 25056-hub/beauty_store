@@ -10,8 +10,6 @@ class CartItem(Base):
     product_id : Mapped[int] = mapped_column(ForeignKey("products.id"))
     __table_args__ = (UniqueConstraint("user_id", "product_id"),)
 
-    
-    #Relationships
     user : Mapped["User"] = relationship(back_populates="cart_items")
     product : Mapped["Product"] = relationship(back_populates="cart_items")
     

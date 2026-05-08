@@ -21,6 +21,5 @@ class User(Base):
     address  : Mapped[Optional[str]] = mapped_column(String(50))                               
     created_at : Mapped[datetime] = mapped_column(DateTime(timezone=True),server_default=func.now())
 
-    #Relationships
     orders : Mapped[List['Order']] = relationship('Order',back_populates='user',cascade='all,delete-orphan')
     cart_items : Mapped[List['CartItem']] = relationship('CartItem',back_populates='user',cascade='all,delete-orphan')

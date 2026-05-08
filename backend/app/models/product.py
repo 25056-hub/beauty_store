@@ -18,7 +18,6 @@ class Product(Base):
     category_id : Mapped[int]          = mapped_column(ForeignKey("categories.id"))
     created_at  : Mapped[datetime]     = mapped_column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
     category    : Mapped["Category"]        = relationship("Category",  back_populates="products")
     cart_items  : Mapped[List["CartItem"]]  = relationship("CartItem",  back_populates="product")
     order_items : Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="product")
