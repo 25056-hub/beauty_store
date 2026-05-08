@@ -1,11 +1,12 @@
 from jose import JWTError,jwt
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,timezone
 import os
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends,HTTPException,status
 from app.database import get_db
 from sqlalchemy.orm import Session
 from app.models import User
+from app.models.user import UserRole
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
@@ -16,7 +17,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 def create_token(user_id : int) -> str :
     payload = {
         "sub" : str(user_id),
-        "exp" : datetime.utcnow() + timedelta(minutes=EXPIRE_MINUTES)
+        "exp" : datetime.now(timezone.utc) + timedelta(minutes=EXPIRE_MINUTES)
     }
     return jwt.encode(payload,SECRET_KEY,algorithm=[ALGORITHM])
 
@@ -43,6 +44,6 @@ def get_current_user(
 def get_admin_user(
         current_user : User = Depends(get_current_user)
     ) -> User :
-    if current_user.role != "admin" :
+    if current_user.role != UserRole.admin :
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Just for Admin")
-    return current_user
+    return current_user 

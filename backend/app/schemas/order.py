@@ -19,7 +19,7 @@ class OrderItemResponse(BaseModel):
 
 class OrderResponse(BaseModel):
     id : int 
-    items = List[OrderItemResponse]
+    items : List[OrderItemResponse]
     total_price : float 
     status : Optional[str] = 'pending' 
     created_at : datetime
