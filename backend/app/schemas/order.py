@@ -1,13 +1,13 @@
-from pydantic import BaseModel,ConfigDict,EmailStr,Field
+from pydantic import BaseModel,ConfigDict,Field
 from datetime import datetime
-from typing import Optional,List
-from schemas.product import ProductResponse
+from typing import Optional,List,Literal
+from app.schemas.product import ProductResponse
 
 class OrderCreate(BaseModel):
     shipping_address : str = Field(min_length=1,max_length=200)
 
 class OrderUpdateStatus(BaseModel):
-    status : str = 'pending' 
+    status: Literal["pending", "paid", "shipped", "delivered", "cancelled"]
 
 class OrderItemResponse(BaseModel):
     id: int

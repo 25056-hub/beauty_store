@@ -1,5 +1,4 @@
-from pydantic import BaseModel,ConfigDict,EmailStr,Field
-from datetime import datetime
+from pydantic import BaseModel,ConfigDict,Field
 from typing import Optional
 
 class CategoryCreate(BaseModel):

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 from typing import List, Optional
-from schemas.product import ProductResponse
+from app.schemas.product import ProductResponse
 
 class CartAddItem(BaseModel):
     product_id: int = Field(gt=0)

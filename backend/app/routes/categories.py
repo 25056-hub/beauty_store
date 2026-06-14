@@ -1,4 +1,4 @@
-from fastapi import APIRouter,HTTPException,status,Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Query
 from typing import List
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -8,11 +8,15 @@ from app.utils.auth_helper import get_admin_user
 from app.utils.validators import validate_category_exists,validate_category_unique
 
 
-router = APIRouter(prefix="/categories",tags=["Categorie"])
+router = APIRouter(prefix="/api/categories",tags=["Categorie"])
 
 @router.get("/",response_model=List[CategoryResponse])
-def get_categories(db : Session=Depends(get_db)):
-    categories = db.query(Category).all()
+def get_categories(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+    db : Session=Depends(get_db)
+):
+    categories = db.query(Category).offset(skip).limit(limit).all()
     return categories
 
 @router.post("/",response_model=CategoryResponse)

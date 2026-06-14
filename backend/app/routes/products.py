@@ -1,4 +1,4 @@
-from fastapi import APIRouter,HTTPException,status,Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Query
 from typing import List
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -8,7 +8,7 @@ from app.utils.auth_helper import get_admin_user
 from app.utils.validators import validate_product_exists
 from app.utils.validators import validate_category_exists
 
-router = APIRouter(prefix="/products",tags=["Product"])
+router = APIRouter(prefix="/api/products",tags=["Product"])
 
 
 @router.get("/{id}")
@@ -17,11 +17,22 @@ def get_product(id: int, db: Session = Depends(get_db)):
     return product
 
 @router.get("/",response_model=List[ProductResponse])
-def get_all_product(category: int = None, db: Session = Depends(get_db)):
+def get_all_product(
+    category: int = None,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
     if category:
-        products = db.query(Product).filter(Product.category_id == category).all()
+        products = (
+            db.query(Product)
+            .filter(Product.category_id == category)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
     else:
-        products = db.query(Product).all()
+        products = db.query(Product).offset(skip).limit(limit).all()
     return products
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=ProductResponse)
