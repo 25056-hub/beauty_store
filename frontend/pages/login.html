@@ -202,7 +202,7 @@
     
      
 .password-group input {
-    padding-right: 45px !important; 
+    padding-right: 45px !important; /* Espace suffisant pour eviter que l'icone couvre le texte */
 }
 
         .input-field input:focus + i { color: var(--gold); }
@@ -496,7 +496,7 @@
 
     <!-- Main Card -->
     <div class="auth-card">
-        
+        <!-- Lien de retour vers la page d'accueil. -->
         <a href="index.html" class="back-link">
             <i class="fas fa-arrow-left"></i>
             Back to Store
@@ -529,7 +529,7 @@
                 <div class="input-field">
                     <input type="password" id="lpass" placeholder="••••••••" required>
                     <i class="fas fa-lock"></i>
-                    
+                    <!-- Bouton pour afficher ou masquer le mot de passe. -->
                     <button type="button" class="show-pass" onclick="togglePass('lpass', this)">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -646,10 +646,12 @@
             btn.disabled = true;
 
             setTimeout(() => {
+                // Enregistre un token de demonstration pour simuler une connexion JWT.
                 saveToken('demo-jwt-token');
                 showToast('Welcome back! Signed in successfully', 'success');
                 btn.innerHTML = '<i class="fas fa-check"></i> Done!';
                 setTimeout(() => {
+                    // Decommentez cette ligne pour rediriger vers l'accueil apres connexion.
                     // window.location.href = 'index.html';
                 }, 800);
             }, 1500);
@@ -689,7 +691,7 @@
             showToast(`Connecting to ${provider}...`, 'success');
         }
     </script>
-   
+    <!-- Fichiers partages: api.js centralise fetch, auth.js gere le token JWT. -->
     <script src="../js/api.js"></script>
     <script src="../js/auth.js"></script>
 </body>
