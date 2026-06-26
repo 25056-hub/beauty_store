@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Beauty Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #c9a96e;
+            --gold-dark: #a88b52;
+            --navy: #1a1a2e;
+            --cream: #faf8f5;
+            --white: #ffffff;
+            --text: #2d2d2d;
+            --text-light: #888;
+            --error: #dc3545;
+            --success: #28a745;
+            --border: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Background Image */
+        .page-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=1920') center/cover;
+            z-index: -2;
+        }
+
+        .page-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26,26,46,0.88), rgba(26,26,46,0.75));
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Main Card */
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 540px;
+            border-radius: 24px;
+            padding: 45px 40px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: cardIn 0.6s ease;
+        }
+
+        .register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Logo */
+        .card-logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .card-logo a {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-logo a i { color: var(--gold); }
+
+        .card-logo p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        /* Header */
+        .reg-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .reg-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .reg-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Steps */
+        .steps-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 28px;
+            gap: 0;
+        }
+
+        .step {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--cream);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        .step.done {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--white);
+        }
+
+        .step-line {
+            width: 50px;
+            height: 2px;
+            background: var(--border);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .step-line.done { background: var(--gold); }
+
+        /* Forms */
+        .step-form {
+            display: none;
+        }
+
+        .step-form.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 7px;
+        }
+
+        .input-field {
+            position: relative;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 13px 42px 13px 14px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-field input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.1);
+        }
+
+        .input-field input::placeholder { color: #bbb; }
+
+        .input-field i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .input-field input:focus + i { color: var(--gold); }
+
+        .show-pass {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .show-pass:hover { color: var(--gold); }
+
+        /* Password Strength */
+        .strength-meter {
+            margin-top: 6px;
+            display: none;
+        }
+
+        .strength-meter.show { display: block; }
+
+        .strength-track {
+            height: 3px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .strength-label {
+            font-size: 11px;
+            margin-top: 4px;
+            color: var(--text-light);
+        }
+
+        /* Two Columns */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* Agreement */
+        .agree-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0 20px;
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .agree-box input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .agree-box a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-row .btn-main { flex: 1; }
+
+        .btn-main {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--navy), #2d2d4a);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-main:hover::before { left: 100%; }
+
+        .btn-main:hover {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.25);
+        }
+
+        .btn-outline {
+            padding: 14px 24px;
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Divider */
+        .sep {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .sep::before, .sep::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Social */
+        .social-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-row button {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            background: var(--white);
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .social-row button:hover {
+            border-color: var(--gold);
+            background: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        .social-row button i { font-size: 17px; }
+        .social-row button:first-child i { color: #db4437; }
+        .social-row button:last-child i { color: var(--navy); }
+
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .login-link a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .login-link a:hover { text-decoration: underline; }
+
+        /* Error */
+        .field-error {
+            font-size: 12px;
+            color: var(--error);
+            margin-top: 4px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .field-error.show { display: flex; }
+
+        /* Toast */
+        .toast-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: var(--white);
+            padding: 14px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            animation: toastIn 0.3s;
+            border-left: 3px solid;
+            margin-bottom: 10px;
+        }
+
+        .toast.show { display: flex; }
+        .toast.ok { color: var(--success); border-color: var(--success); }
+        .toast.bad { color: var(--error); border-color: var(--error); }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-screen.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--white);
+            font-size: 28px;
+            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.3);
+        }
+
+        .success-screen h2 {
+            font-size: 22px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .success-screen p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Back Link */
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: var(--gold); }
+
+        /* Responsive */
+        @media (max-width: 560px) {
+            .register-card { padding: 35px 20px; border-radius: 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .btn-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Image -->
+    <div class="page-bg"></div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Toast -->
+    <div class="toast-box" id="toastBox"></div>
+
+    <!-- Main Card -->
+    <div class="register-card">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Store
+        </a>
+
+        <div class="card-logo">
+            <a href="index.html">
+                <i class="fas fa-sparkles"></i>
+                Beauty Shop
+            </a>
+            <p>Join the world of luxury beauty</p>
+        </div>
+
+        <div class="reg-header" id="regHeader">
+            <h1>Create Your Account</h1>
+            <p>Complete the steps below to get started</p>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-bar" id="stepsBar">
+            <div class="step active" id="s1">1</div>
+            <div class="step-line" id="l1"></div>
+            <div class="step" id="s2">2</div>
+            <div class="step-line" id="l2"></div>
+            <div class="step" id="s3">3</div>
+        </div>
+
+        <!-- Step 1: Personal Info -->
+        <div class="step-form active" id="step1">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <div class="input-field">
+                        <input type="text" id="fname" placeholder="Sarah" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="field-error" id="e-fname"><i class="fas fa-exclamation-circle"></i> Enter your first name</span>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <div class="input-field">
+                        <input type="text" id="lname" placeholder="Johnson" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="field-error" id="e-lname"><i class="fas fa-exclamation-circle"></i> Enter your last name</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-field">
+                    <input type="email" id="remail" placeholder="name@example.com" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <span class="field-error" id="e-remail"><i class="fas fa-exclamation-circle"></i> Invalid email address</span>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <div class="input-field">
+                    <input type="tel" id="rphone" placeholder="+1 (555) 000-0000" required>
+                    <i class="fas fa-phone"></i>
+                </div>
+                <span class="field-error" id="e-rphone"><i class="fas fa-exclamation-circle"></i> Invalid phone number</span>
+            </div>
+
+            <button class="btn-main" style="width:100%" onclick="goStep(2)">
+                Next Step
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Step 2: Password -->
+        <div class="step-form" id="step2">
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-field">
+                    <input type="password" id="rpass" placeholder="••••••••" required oninput="checkStr(this.value)">
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="show-pass" onclick="toggleP('rpass', this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="strength-meter" id="smeter">
+                    <div class="strength-track">
+                        <div class="strength-fill" id="sfill"></div>
+                    </div>
+                    <div class="strength-label" id="slabel">Weak</div>
+                </div>
+                <span class="field-error" id="e-rpass"><i class="fas fa-exclamation-circle"></i> At least 8 characters</span>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <div class="input-field">
+                    <input type="password" id="rconfirm" placeholder="••••••••" required>
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="show-pass" onclick="toggleP('rconfirm', this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span class="field-error" id="e-rconfirm"><i class="fas fa-exclamation-circle"></i> Passwords don't match</span>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn-outline" onclick="goStep(1)">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </button>
+                <button class="btn-main" onclick="goStep(3)">
+                    Next Step
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="step-form" id="step3">
+            <div class="agree-box">
+                <input type="checkbox" id="agree">
+                <span>I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and confirm that I am at least 18 years old.</span>
+            </div>
+            <span class="field-error" id="e-agree" style="margin-bottom:15px;"><i class="fas fa-exclamation-circle"></i> You must agree to the terms</span>
+
+            <div class="btn-row">
+                <button class="btn-outline" onclick="goStep(2)">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </button>
+                <button class="btn-main" id="rbtn" onclick="doRegister()">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Success -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Account Created Successfully!</h2>
+            <p>Welcome to Beauty Shop. Start your beauty journey now.</p>
+            <button class="btn-main" style="width:100%" onclick="location.href='index.html'">
+                <i class="fas fa-shopping-bag"></i>
+                Go to Store
+            </button>
+        </div>
+
+        <!-- Social -->
+        <div id="socialSection">
+            <div class="sep">or sign up with</div>
+            <div class="social-row">
+                <button onclick="socialR('Google')">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+                <button onclick="socialR('Apple')">
+                    <i class="fab fa-apple"></i>
+                    Apple
+                </button>
+            </div>
+        </div>
+
+        <!-- Login Link -->
+        <div class="login-link" id="loginLink">
+            Already have an account?
+            
+            <a href="login.html">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 15 + 's';
+            p.style.animationDuration = (10 + Math.random() * 10) + 's';
+            p.style.width = (3 + Math.random() * 4) + 'px';
+            p.style.height = p.style.width;
+            particlesContainer.appendChild(p);
+        }
+
+        let currentStep = 1;
+
+        function goStep(n) {
+            if (n > currentStep && !validateStep(currentStep)) return;
+
+            document.querySelectorAll('.step-form').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+
+            for (let i = 1; i <= 3; i++) {
+                const s = document.getElementById('s' + i);
+                const l = document.getElementById('l' + i);
+                s.classList.remove('active', 'done');
+                if (l) l.classList.remove('done');
+
+                if (i < n) {
+                    s.classList.add('done');
+                    s.innerHTML = '<i class="fas fa-check"></i>';
+                    if (l) l.classList.add('done');
+                } else if (i === n) {
+                    s.classList.add('active');
+                    s.textContent = i;
+                } else {
+                    s.textContent = i;
+                }
+            }
+
+            currentStep = n;
+        }
+
+        function validateStep(s) {
+            let ok = true;
+
+            if (s === 1) {
+                const fname = document.getElementById('fname');
+                const lname = document.getElementById('lname');
+                const email = document.getElementById('remail');
+                const phone = document.getElementById('rphone');
+
+                if (fname.value.length < 2) { showE('e-fname'); ok = false; }
+                else hideE('e-fname');
+
+                if (lname.value.length < 2) { showE('e-lname'); ok = false; }
+                else hideE('e-lname');
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { showE('e-remail'); ok = false; }
+                else hideE('e-remail');
+
+                if (phone.value.length < 10) { showE('e-rphone'); ok = false; }
+                else hideE('e-rphone');
+            }
+
+            if (s === 2) {
+                const pass = document.getElementById('rpass');
+                const conf = document.getElementById('rconfirm');
+
+                if (pass.value.length < 8) { showE('e-rpass'); ok = false; }
+                else hideE('e-rpass');
+
+                if (pass.value !== conf.value || conf.value === '') { showE('e-rconfirm'); ok = false; }
+                else hideE('e-rconfirm');
+            }
+
+            return ok;
+        }
+
+        function showE(id) { document.getElementById(id).classList.add('show'); }
+        function hideE(id) { document.getElementById(id).classList.remove('show'); }
+
+        function checkStr(v) {
+            const meter = document.getElementById('smeter');
+            const fill = document.getElementById('sfill');
+            const label = document.getElementById('slabel');
+
+            if (v.length === 0) { meter.classList.remove('show'); return; }
+            meter.classList.add('show');
+
+            let s = 0;
+            if (v.length >= 8) s++;
+            if (v.length >= 12) s++;
+            if (/[A-Z]/.test(v)) s++;
+            if (/[0-9]/.test(v)) s++;
+            if (/[^A-Za-z0-9]/.test(v)) s++;
+
+            const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#20c997'];
+            const texts = ['Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+
+            const lvl = Math.min(s, 4);
+            fill.style.width = ((lvl + 1) / 5 * 100) + '%';
+            fill.style.background = colors[lvl];
+            label.textContent = texts[lvl];
+            label.style.color = colors[lvl];
+        }
+
+        function toggleP(id, btn) {
+            const inp = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function doRegister() {
+            if (!validateStep(2)) { goStep(2); return; }
+
+            const agree = document.getElementById('agree');
+            if (!agree.checked) {
+                showE('e-agree');
+                return;
+            }
+            hideE('e-agree');
+
+            const btn = document.getElementById('rbtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('regHeader').style.display = 'none';
+                document.getElementById('stepsBar').style.display = 'none';
+                document.querySelectorAll('.step-form').forEach(s => s.style.display = 'none');
+                document.getElementById('socialSection').style.display = 'none';
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('successScreen').classList.add('show');
+                toast('Account created successfully!', 'ok');
+            }, 1500);
+        }
+
+        function toast(msg, type) {
+            const box = document.getElementById('toastBox');
+            const t = document.createElement('div');
+            t.className = `toast ${type} show`;
+            t.innerHTML = `<i class="fas fa-${type==='ok'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+            box.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function socialR(p) {
+            toast(`Connecting to ${p}...`, 'ok');
+        }
+    </script>
+ 
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
