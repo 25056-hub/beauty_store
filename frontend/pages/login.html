@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Beauty Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #c9a96e;
+            --gold-dark: #a88b52;
+            --navy: #1a1a2e;
+            --cream: #faf8f5;
+            --white: #ffffff;
+            --text: #2d2d2d;
+            --text-light: #888;
+            --error: #dc3545;
+            --success: #28a745;
+            --border: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Background Image */
+        .page-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1920') center/cover;
+            z-index: -2;
+        }
+
+        .page-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26,26,46,0.85), rgba(26,26,46,0.7));
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Main Card */
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 24px;
+            padding: 50px 45px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: cardIn 0.6s ease;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Logo */
+        .card-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-logo a {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-logo a i { color: var(--gold); }
+
+        .card-logo p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        /* Header */
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Input Fields */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 7px;
+        }
+
+        .input-field {
+            position: relative;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 14px 45px 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-field input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.1);
+        }
+
+        .input-field input::placeholder { color: #bbb; }
+
+        .input-field i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 16px;
+            transition: color 0.3s;}
+    
+     
+.password-group input {
+    padding-right: 45px !important; 
+}
+
+        .input-field input:focus + i { color: var(--gold); }
+
+        .show-pass {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .show-pass:hover { color: var(--gold); }
+
+        /* Options */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 25px;
+            font-size: 13px;
+        }
+
+        .checkbox-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .checkbox-wrap input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .forgot-link:hover { color: var(--gold-dark); text-decoration: underline; }
+
+        /* Submit Button */
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--navy), #2d2d4a);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-main:hover::before { left: 100%; }
+
+        .btn-main:hover {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.3);
+        }
+
+        .btn-main:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Social Buttons */
+        .social-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 13px;
+            border: 2px solid var(--border);
+            background: var(--white);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            border-color: var(--gold);
+            background: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        .social-btn i { font-size: 18px; }
+        .social-btn.google i { color: #db4437; }
+        .social-btn.apple i { color: var(--navy); }
+
+        /* Sign Up Link */
+        .signup-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .signup-text a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
+        .signup-text a:hover { text-decoration: underline; }
+
+        /* Back to Store */
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: var(--gold); }
+
+        /* Toast */
+        .toast-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: var(--white);
+            padding: 14px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            animation: toastIn 0.3s;
+            border-left: 3px solid;
+            margin-bottom: 10px;
+        }
+
+        .toast.show { display: flex; }
+        .toast.success { color: var(--success); border-color: var(--success); }
+        .toast.error { color: var(--error); border-color: var(--error); }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Forgot Password Modal */
+        .modal-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-bg.open { display: flex; }
+
+        .modal-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: modalIn 0.4s;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close-btn:hover { color: var(--error); }
+
+        .modal-card h3 {
+            font-size: 20px;
+            color: var(--navy);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-card > p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            .auth-card { padding: 40px 25px; border-radius: 20px; }
+            .card-logo a { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Image -->
+    <div class="page-bg"></div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Toast -->
+    <div class="toast-box" id="toastBox"></div>
+
+    <!-- Main Card -->
+    <div class="auth-card">
+        
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Store
+        </a>
+
+        <div class="card-logo">
+            <a href="index.html">
+                <i class="fas fa-sparkles"></i>
+                Beauty Shop
+            </a>
+            <p>Your gateway to luxury beauty</p>
+        </div>
+
+        <div class="form-header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue your beauty journey</p>
+        </div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-field">
+                    <input type="email" id="lemail" placeholder="name@example.com" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-field">
+                    <input type="password" id="lpass" placeholder="••••••••" required>
+                    <i class="fas fa-lock"></i>
+                    
+                    <button type="button" class="show-pass" onclick="togglePass('lpass', this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="checkbox-wrap">
+                    <input type="checkbox">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-link" onclick="openForgot(event)">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-main" id="lbtn">
+                <i class="fas fa-sign-in-alt"></i>
+                Sign In
+            </button>
+        </form>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-btns">
+            <button class="social-btn google" onclick="socialLogin('Google')">
+                <i class="fab fa-google"></i>
+                Google
+            </button>
+            <button class="social-btn apple" onclick="socialLogin('Apple')">
+                <i class="fab fa-apple"></i>
+                Apple
+            </button>
+        </div>
+
+        <div class="signup-text">
+            Don't have an account?
+            <a href="register.html">Create one</a>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal-bg" id="forgotModal" onclick="if(event.target===this)closeForgot()">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeForgot()"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-key" style="color:var(--gold);"></i>Reset Password</h3>
+            <p>Enter your email and we'll send you a reset link</p>
+            <form onsubmit="return sendReset(event)">
+                <div class="form-group">
+                    <div class="input-field">
+                        <input type="email" id="femail" placeholder="name@example.com" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-main" id="fbtn">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Reset Link
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 15 + 's';
+            p.style.animationDuration = (10 + Math.random() * 10) + 's';
+            p.style.width = (3 + Math.random() * 4) + 'px';
+            p.style.height = p.style.width;
+            particlesContainer.appendChild(p);
+        }
+
+        function togglePass(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    
+        function showToast(msg, type) {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type} show`;
+            toast.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+            box.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('lemail');
+            const pass = document.getElementById('lpass');
+            const btn = document.getElementById('lbtn');
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                showToast('Please enter a valid email', 'error');
+                email.focus();
+                return false;
+            }
+            if (pass.value.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                pass.focus();
+                return false;
+            }
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                saveToken('demo-jwt-token');
+                showToast('Welcome back! Signed in successfully', 'success');
+                btn.innerHTML = '<i class="fas fa-check"></i> Done!';
+                setTimeout(() => {
+                    // window.location.href = 'index.html';
+                }, 800);
+            }, 1500);
+            return false;
+        }
+
+        function openForgot(e) {
+            e.preventDefault();
+            document.getElementById('forgotModal').classList.add('open');
+        }
+
+        function closeForgot() {
+            document.getElementById('forgotModal').classList.remove('open');
+        }
+
+        function sendReset(e) {
+            e.preventDefault();
+            const email = document.getElementById('femail');
+            const btn = document.getElementById('fbtn');
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                showToast('Please enter a valid email', 'error');
+                return false;
+            }
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            setTimeout(() => {
+                closeForgot();
+                showToast('Reset link sent to your email!', 'success');
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
+                email.value = '';
+            }, 1500);
+            return false;
+        }
+
+        function socialLogin(provider) {
+            showToast(`Connecting to ${provider}...`, 'success');
+        }
+    </script>
+    <!-- ملفات المصادقة: api للطلبات و auth لحفظ وإدارة token -->
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
