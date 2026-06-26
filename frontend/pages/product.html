@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Beauty Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="detail-page">
+  <!-- Cette page ne contient pas de produit fixe: le contenu est rempli par js/product-detail.js. -->
+  <main class="detail-shell">
+    <nav class="detail-nav" aria-label="Product navigation">
+      <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i>
+        Back to products
+      </a>
+      <a href="index.html" class="brand-link">
+        <i class="fas fa-sparkles"></i>
+        Beauty Shop
+      </a>
+    </nav>
+
+    <div class="detail-card">
+      <div class="detail-heading">
+        <p>Beauty selection</p>
+        <h1>Product Details</h1>
+      </div>
+
+      <!-- Cette zone est remplie dynamiquement avec le produit trouve par son id. -->
+      <div id="productDetailsBox"></div>
+    </div>
+  </main>
+
+  <!-- products.js est charge d'abord car il contient la liste partagee des produits. -->
+  <script src="../js/products.js"></script>
+  <!-- product-detail.js lit l'id dans l'URL puis affiche le produit correspondant. -->
+  <script src="../js/product-detail.js"></script>
+</body>
+</html>
