@@ -173,3 +173,79 @@ if (productsGrid) {
     }, 1200);
   });
 }
+
+// Affiche la page detail si le conteneur existe dans product.html.
+function renderMissingProduct(productDetailsBox) {
+  productDetailsBox.innerHTML = `
+    <div class="empty-state">
+      <i class="fas fa-circle-exclamation"></i>
+      <h3>Product not found</h3>
+      <p>The selected product is unavailable at the moment.</p>
+      <a class="btn-main detail-btn" href="index.html">Back to products</a>
+    </div>
+  `;
+}
+
+// Transforme le produit selectionne en vue detail complete.
+function renderProductDetails(productDetailsBox, product) {
+  if (!product) {
+    renderMissingProduct(productDetailsBox);
+    return;
+  }
+
+  productDetailsBox.innerHTML = `
+    <section class="detail-layout">
+      <div class="detail-media">
+        ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ""}
+        <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}">
+      </div>
+
+      <div class="detail-content">
+        <p class="product-brand">${escapeHtml(product.brand)}</p>
+        <h3 class="detail-title">${escapeHtml(product.name)}</h3>
+        <p class="detail-description">${escapeHtml(product.description)}</p>
+
+        <div class="product-rating detail-rating" aria-label="Rating 4.5 out of 5">
+          <span class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </span>
+          <span class="rating-count">(128 reviews)</span>
+        </div>
+
+        <div class="product-price detail-price">
+          <span class="current-price">${formatPrice(product.price)}</span>
+          ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ""}
+        </div>
+
+        <button class="btn-main detail-btn" type="button" id="detailCartBtn">
+          <i class="fas fa-shopping-bag"></i>
+          Add To Cart
+        </button>
+      </div>
+    </section>
+  `;
+}
+
+// Lance automatiquement le detail produit uniquement sur pages/product.html.
+const productDetailsBox = document.getElementById("productDetailsBox");
+
+if (productDetailsBox) {
+  const params = new URLSearchParams(window.location.search);
+  const productId = Number(params.get("id"));
+  const selectedProduct = products.find((product) => product.id === productId) || products[0];
+
+  renderProductDetails(productDetailsBox, selectedProduct);
+
+  productDetailsBox.addEventListener("click", (event) => {
+    const button = event.target.closest("#detailCartBtn");
+    if (!button) return;
+
+    button.innerHTML = '<i class="fas fa-check"></i> Added';
+    button.disabled = true;
+
+    setTimeout(() => {
+      button.innerHTML = '<i class="fas fa-shopping-bag"></i> Add To Cart';
+      button.disabled = false;
+    }, 1200);
+  });
+}
