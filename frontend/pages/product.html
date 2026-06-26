@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="detail-page">
-  <!-- Cette page ne contient pas de produit fixe: le contenu est rempli par js/product-detail.js. -->
+  <!-- Cette page ne contient pas de produit fixe: le contenu est rempli par js/products.js. -->
   <main class="detail-shell">
     <nav class="detail-nav" aria-label="Product navigation">
       <a href="index.html" class="back-link">
@@ -35,9 +35,7 @@
     </div>
   </main>
 
-  <!-- products.js est charge d'abord car il contient la liste partagee des produits. -->
+  <!-- products.js contient la liste, l'affichage des cartes et le detail produit. -->
   <script src="../js/products.js"></script>
-  <!-- product-detail.js lit l'id dans l'URL puis affiche le produit correspondant. -->
-  <script src="../js/product-detail.js"></script>
 </body>
 </html>
