@@ -8,6 +8,7 @@ class ProductCreate(BaseModel):
     price : float = Field(gt=0)
     stock : int  = Field(ge=0)
     category_id : int
+    image_url : Optional[str] = Field(default=None,max_length=200)
 
 class ProductUpdate(BaseModel):
     name : Optional[str ]  = Field(min_length=1,max_length=200)
@@ -15,6 +16,7 @@ class ProductUpdate(BaseModel):
     price : Optional[float] = Field(gt=0,default=None)
     stock : Optional[int ] = Field(ge=0,default=None)
     category_id : Optional[int] = None
+    image_url : Optional[str] = Field(default=None,max_length=200)
 
 class ProductResponse(BaseModel):
     id : int 

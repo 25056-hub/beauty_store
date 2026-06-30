@@ -1,4 +1,7 @@
-from fastapi import APIRouter, HTTPException, status, Depends, Query
+from pathlib import Path
+from uuid import uuid4
+
+from fastapi import APIRouter, File, HTTPException, UploadFile, status, Depends, Query
 from typing import List
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -9,6 +12,23 @@ from app.utils.validators import validate_product_exists
 from app.utils.validators import validate_category_exists
 
 router = APIRouter(prefix="/api/products",tags=["Product"])
+
+UPLOAD_DIR = Path(__file__).resolve().parents[2] / "uploads" / "products"
+ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
+MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024
+
+
+def _build_product_image_name(filename: str) -> str:
+    extension = Path(filename).suffix.lower()
+
+    if extension not in ALLOWED_IMAGE_EXTENSIONS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only JPG, PNG, and WEBP images are allowed"
+        )
+
+    return f"{uuid4().hex}{extension}"
 
 
 @router.get("/{id}")
@@ -48,7 +68,8 @@ def add_product(
         description=product_data.description,
         price=product_data.price,
         stock=product_data.stock,
-        category_id=product_data.category_id
+        category_id=product_data.category_id,
+        image_url=product_data.image_url
     )
     
     db.add(product)
@@ -56,6 +77,32 @@ def add_product(
     db.refresh(product)
     
     return product
+
+@router.post("/upload-image")
+async def upload_product_image(
+    image: UploadFile = File(...),
+    admin = Depends(get_admin_user)
+):
+    if image.content_type not in ALLOWED_IMAGE_TYPES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only JPG, PNG, and WEBP images are allowed"
+        )
+
+    filename = _build_product_image_name(image.filename or "")
+    contents = await image.read()
+
+    if len(contents) > MAX_IMAGE_SIZE_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Image must be 2MB or smaller"
+        )
+
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    file_path = UPLOAD_DIR / filename
+    file_path.write_bytes(contents)
+
+    return {"image_url": f"/uploads/products/{filename}"}
 
 @router.put("/{id}",response_model=ProductResponse)
 def update_product(
@@ -76,6 +123,8 @@ def update_product(
     if product_data.category_id is not None:
         validate_category_exists(product_data.category_id, db)
         product.category_id = product_data.category_id
+    if "image_url" in product_data.model_fields_set:
+        product.image_url = product_data.image_url
 
     db.commit()
     db.refresh(product)

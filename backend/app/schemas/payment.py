@@ -2,6 +2,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 from typing import Literal, Optional
 
+from app.models.payment import PaymentStatus
+
 
 class PaymentCreate(BaseModel):
     order_id: int = Field(gt=0)
@@ -17,11 +19,11 @@ class PaymentResponse(BaseModel):
     id: int
     order_id: int
     amount: float
-    status: Literal["pending", "under_review", "success", "rejected", "failed"]
+    status: PaymentStatus
     method: str
     bpay_code: str
     admin_note: Optional[str] = None
     reviewed_at: Optional[datetime] = None
     created_at: datetime
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, use_enum_values=True)

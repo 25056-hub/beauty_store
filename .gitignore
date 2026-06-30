@@ -2,6 +2,14 @@
 __pycache__/
 *.pyc
 venv/
+node_modules/
+dist/
+backend/uploads/
+frontend/playwright-report/
+frontend/test-results/
+frontend/public/homepage.png
+photos/
+test.htm
 *.db
 .DS_Store
 Thumbs.db

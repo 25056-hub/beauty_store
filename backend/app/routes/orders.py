@@ -1,13 +1,38 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models.order import Order, OrderItem
+from app.models.order import Order, OrderItem, OrderStatus
 from app.models.cart import CartItem
 from app.models.user import User
-from app.schemas.order import OrderCreate, OrderUpdateStatus, OrderResponse
+from app.schemas.order import AdminOrderResponse, OrderCreate, OrderUpdateStatus, OrderResponse
 from app.utils.auth_helper import get_current_user, get_admin_user
 
 router = APIRouter(prefix="/api/orders", tags=["orders"])
+
+ALLOWED_ORDER_STATUS_TRANSITIONS = {
+    OrderStatus.pending: {OrderStatus.cancelled},
+    OrderStatus.paid: {OrderStatus.shipped},
+    OrderStatus.shipped: {OrderStatus.delivered},
+    OrderStatus.delivered: set(),
+    OrderStatus.cancelled: set(),
+}
+
+
+def validate_order_status_transition(current_status: OrderStatus, next_status: OrderStatus):
+    if current_status == next_status:
+        return
+
+    allowed_next_statuses = ALLOWED_ORDER_STATUS_TRANSITIONS[current_status]
+
+    if next_status not in allowed_next_statuses:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=(
+                "Invalid order status transition: "
+                f"{current_status.value} to {next_status.value}"
+            ),
+        )
 
 
 @router.get("", response_model=list[OrderResponse])
@@ -20,6 +45,28 @@ def get_orders(
     orders = (
         db.query(Order)
         .filter(Order.user_id == current_user.id)
+        .order_by(Order.created_at.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+    return orders
+
+
+@router.get("/admin/all", response_model=list[AdminOrderResponse])
+def get_admin_orders(
+    admin_user: User = Depends(get_admin_user),
+    skip: int = Query(0, ge=0),
+    limit: int = Query(50, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
+    orders = (
+        db.query(Order)
+        .options(
+            joinedload(Order.user),
+            joinedload(Order.items).joinedload(OrderItem.product),
+        )
+        .order_by(Order.created_at.desc())
         .offset(skip)
         .limit(limit)
         .all()
@@ -123,7 +170,10 @@ def update_order_status(
             detail="Order not found"
         )
     
-    order.status = update_data.status
+    next_status = OrderStatus(update_data.status)
+    validate_order_status_transition(order.status, next_status)
+
+    order.status = next_status
     db.commit()
     db.refresh(order)
     

@@ -107,10 +107,10 @@ def review_payment(
             detail="Payment not found"
         )
 
-    if payment.status == PaymentStatus.success:
+    if payment.status != PaymentStatus.under_review:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Payment already approved"
+            detail="Payment already reviewed"
         )
 
     payment.status = PaymentStatus(review_data.status)
@@ -119,6 +119,11 @@ def review_payment(
 
     if payment.status == PaymentStatus.success:
         payment.order.status = OrderStatus.paid
+    elif payment.status == PaymentStatus.rejected:
+        payment.order.status = OrderStatus.cancelled
+
+        for order_item in payment.order.items:
+            order_item.product.stock += order_item.quantity
 
     db.commit()
     db.refresh(payment)
