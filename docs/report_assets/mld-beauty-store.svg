@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <style>
+      .page { fill: #fff; }
+      .table { fill: #f8f8f8; stroke: #9a9a9a; stroke-width: 1.3; }
+      .header { fill: #eeeeee; stroke: #9a9a9a; stroke-width: 1.3; }
+      .name { font: 700 15px "Times New Roman", serif; fill: #111; }
+      .field { font: 13px "Times New Roman", serif; fill: #222; }
+      .key { font: 700 13px "Times New Roman", serif; fill: #111; }
+      .line { stroke: #777; stroke-width: 1.15; fill: none; marker-end: url(#arrow); }
+      .label { font: 12px "Times New Roman", serif; fill: #444; }
+      .title { font: 700 22px "Times New Roman", serif; fill: #111; }
+      .subtitle { font: 14px "Times New Roman", serif; fill: #555; }
+      .figure { font: 700 15px "Times New Roman", serif; fill: #2c62b7; }
+      .caption { font: 14px "Times New Roman", serif; fill: #222; }
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#777"/>
+    </marker>
+  </defs>
+
+  <rect class="page" width="1200" height="900"/>
+  <text x="52" y="50" class="title">MLD - Modèle Logique de Données</text>
+  <text x="52" y="76" class="subtitle">Beauty Store - tables SQL, clés primaires, clés étrangères et contraintes</text>
+
+  <g transform="translate(450 95)">
+    <rect width="250" height="210" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">users</text>
+    <text x="14" y="55" class="key">PK id</text>
+    <text x="14" y="78" class="field">name</text>
+    <text x="14" y="101" class="field">email UNIQUE</text>
+    <text x="14" y="124" class="field">password_hash</text>
+    <text x="14" y="147" class="field">role</text>
+    <text x="14" y="170" class="field">phone</text>
+    <text x="14" y="193" class="field">address, created_at</text>
+  </g>
+
+  <g transform="translate(70 350)">
+    <rect width="240" height="120" class="table"/>
+    <rect width="240" height="32" class="header"/>
+    <text x="120" y="22" text-anchor="middle" class="name">categories</text>
+    <text x="14" y="58" class="key">PK id</text>
+    <text x="14" y="82" class="field">name UNIQUE</text>
+    <text x="14" y="106" class="field">description</text>
+  </g>
+
+  <g transform="translate(450 350)">
+    <rect width="250" height="205" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">products</text>
+    <text x="14" y="55" class="key">PK id</text>
+    <text x="14" y="78" class="field">name</text>
+    <text x="14" y="101" class="field">description</text>
+    <text x="14" y="124" class="field">price</text>
+    <text x="14" y="147" class="field">stock</text>
+    <text x="14" y="170" class="field">image_url</text>
+    <text x="14" y="193" class="key">FK category_id</text>
+  </g>
+
+  <g transform="translate(850 350)">
+    <rect width="250" height="150" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">cart_items</text>
+    <text x="14" y="58" class="key">PK id</text>
+    <text x="14" y="82" class="field">quantity</text>
+    <text x="14" y="106" class="key">FK user_id</text>
+    <text x="14" y="130" class="key">FK product_id</text>
+  </g>
+
+  <g transform="translate(450 660)">
+    <rect width="250" height="155" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">orders</text>
+    <text x="14" y="58" class="key">PK id</text>
+    <text x="14" y="82" class="field">total_price</text>
+    <text x="14" y="106" class="field">status</text>
+    <text x="14" y="130" class="field">shipping_address</text>
+    <text x="140" y="130" class="key">FK user_id</text>
+  </g>
+
+  <g transform="translate(70 650)">
+    <rect width="250" height="165" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">order_items</text>
+    <text x="14" y="58" class="key">PK id</text>
+    <text x="14" y="82" class="field">quantity</text>
+    <text x="14" y="106" class="field">unit_price</text>
+    <text x="14" y="130" class="key">FK order_id</text>
+    <text x="14" y="154" class="key">FK product_id</text>
+  </g>
+
+  <g transform="translate(850 650)">
+    <rect width="250" height="175" class="table"/>
+    <rect width="250" height="32" class="header"/>
+    <text x="125" y="22" text-anchor="middle" class="name">payments</text>
+    <text x="14" y="58" class="key">PK id</text>
+    <text x="14" y="82" class="field">amount</text>
+    <text x="14" y="106" class="field">status</text>
+    <text x="14" y="130" class="field">method</text>
+    <text x="14" y="154" class="key">FK order_id UNIQUE</text>
+    <text x="140" y="154" class="field">bpay_code UNIQUE</text>
+  </g>
+
+  <path d="M310 410 C360 410 400 430 450 445" class="line"/>
+  <text x="333" y="398" class="label">products.category_id</text>
+
+  <path d="M700 445 C755 445 795 425 850 425" class="line"/>
+  <text x="730" y="413" class="label">cart_items.product_id</text>
+
+  <path d="M575 305 C700 315 820 335 925 350" class="line"/>
+  <text x="715" y="316" class="label">cart_items.user_id</text>
+
+  <path d="M575 305 C575 425 575 560 575 660" class="line"/>
+  <text x="590" y="505" class="label">orders.user_id</text>
+
+  <path d="M450 738 C395 738 365 735 320 735" class="line"/>
+  <text x="350" y="723" class="label">order_items.order_id</text>
+
+  <path d="M195 650 C265 575 365 510 450 470" class="line"/>
+  <text x="290" y="570" class="label">order_items.product_id</text>
+
+  <path d="M700 738 C755 738 795 738 850 738" class="line"/>
+  <text x="730" y="724" class="label">payments.order_id</text>
+
+  <text x="518" y="865" class="figure">Figure 20.2 :</text>
+  <text x="616" y="865" class="caption">MLD relationnel de la base de données Beauty Store</text>
+</svg>

@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapport Detaille - Beauty Store</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 13mm;
+    }
+
+    :root {
+      --ink: #211b1d;
+      --muted: #6e6265;
+      --accent: #bd6f78;
+      --accent-dark: #8e4d58;
+      --soft: #f8e4e4;
+      --cream: #fffaf7;
+      --line: #ead0d0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: white;
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 10.8pt;
+      line-height: 1.48;
+    }
+
+    .sheet {
+      position: relative;
+      min-height: 269mm;
+      page-break-after: always;
+      padding: 9mm 7mm 14mm;
+      overflow: hidden;
+    }
+
+    .sheet:not(.cover) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sheet:last-child {
+      page-break-after: auto;
+    }
+
+    .cover {
+      display: grid;
+      align-content: center;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 86% 4%, #f2bcc5 0, transparent 25%),
+        radial-gradient(circle at 8% 94%, #f8dddd 0, transparent 28%),
+        linear-gradient(135deg, #fff 0%, #fff8f5 54%, #f9dddd 100%);
+      text-align: center;
+    }
+
+    .logo {
+      width: 118px;
+      margin: 0 auto 18px;
+    }
+
+    .kicker {
+      color: var(--accent-dark);
+      font-size: 9.6pt;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      margin: 14px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 40pt;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .subtitle {
+      max-width: 560px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 13pt;
+    }
+
+    .meta-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 36px;
+      text-align: left;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 250, 247, 0.75);
+      padding: 10px 12px;
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 8.4pt;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .card strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 11pt;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25pt;
+      font-weight: 500;
+    }
+
+    h2 {
+      margin-top: 18px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+      color: var(--accent-dark);
+      font-size: 15.2pt;
+    }
+
+    h3 {
+      margin-top: 12px;
+      color: var(--ink);
+      font-size: 11.6pt;
+    }
+
+    p {
+      margin: 7px 0;
+    }
+
+    ul,
+    ol {
+      margin: 7px 0 7px 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 3px 0;
+    }
+
+    code {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      padding: 1px 5px;
+      color: var(--accent-dark);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9.2pt;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+      font-size: 9.4pt;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 6px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      color: var(--accent-dark);
+    }
+
+    .page-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 13px;
+      color: var(--muted);
+      font-size: 8.8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .page-head::after {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      content: "";
+    }
+
+    .page-no {
+      position: absolute;
+      right: 7mm;
+      bottom: 5mm;
+      color: var(--muted);
+      font-size: 8.5pt;
+    }
+
+    .note {
+      margin: 10px 0;
+      border-left: 4px solid var(--accent);
+      background: var(--cream);
+      padding: 9px 11px;
+      color: var(--muted);
+    }
+
+    .page-fill {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .page-fill .card {
+      min-height: 34mm;
+    }
+
+    .page-fill strong {
+      margin-bottom: 5px;
+    }
+
+    .flow {
+      counter-reset: step;
+      display: grid;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .flow div {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 7px 8px 7px 38px;
+    }
+
+    .flow div::before {
+      counter-increment: step;
+      position: absolute;
+      top: 7px;
+      left: 8px;
+      display: grid;
+      width: 21px;
+      height: 21px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      content: counter(step);
+      font-size: 8.5pt;
+      font-weight: 800;
+    }
+
+    .toc ol {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      list-style-position: inside;
+    }
+
+    .toc li {
+      border-bottom: 1px dotted var(--line);
+      padding-bottom: 4px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <section class="sheet cover">
+    <img class="logo" src="../frontend/public/logo.png" alt="Beauty Store">
+    <div class="kicker">Rapport de projet</div>
+    <h1 class="title">Beauty Store</h1>
+    <p class="subtitle">Application web e-commerce pour la vente de produits de beauté, avec interface client, panier, commandes, paiement Bankily B-pay et tableau de bord administrateur.</p>
+    <div class="meta-grid">
+      <div class="card"><span>Type</span><strong>Projet e-commerce</strong></div>
+      <div class="card"><span>Frontend</span><strong>React + Vite</strong></div>
+      <div class="card"><span>Backend</span><strong>FastAPI + MySQL</strong></div>
+    </div>
+    <span class="page-no">Page 1</span>
+  </section>
+
+  <section class="sheet toc">
+    <div class="page-head">Beauty Store</div>
+    <h1>Sommaire</h1>
+    <ol>
+      <li>1. Introduction générale</li>
+      <li>2. Contexte et problématique</li>
+      <li>3. Objectifs fonctionnels</li>
+      <li>4. Objectifs techniques</li>
+      <li>5. Choix technologiques</li>
+      <li>6. Architecture globale</li>
+      <li>7. Architecture backend</li>
+      <li>8. Routes principales</li>
+      <li>9. Architecture frontend</li>
+      <li>10. Design et expérience utilisateur</li>
+      <li>11. Modèle de données</li>
+      <li>12. Gestion des produits</li>
+      <li>13. Parcours utilisateur</li>
+      <li>14. Logique du panier</li>
+      <li>15. Checkout et création de commande</li>
+      <li>16. Paiement Bankily B-pay</li>
+      <li>17. Tableau de bord administrateur</li>
+      <li>18. Gestion des commandes</li>
+      <li>19. Gestion des paiements</li>
+      <li>20. Sécurité de l'application</li>
+      <li>21. Tests et validation</li>
+      <li>22. Performance et organisation</li>
+      <li>23. Préparation au déploiement</li>
+      <li>24. Limites actuelles</li>
+      <li>25. Améliorations futures</li>
+      <li>26. Conclusion</li>
+    </ol>
+    <span class="page-no">Page 2</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Introduction</div>
+    <h1>1. Introduction générale</h1>
+    <p>Beauty Store est une application web de commerce electronique specialisee dans la vente de produits de beaute et de soin. Le site permet au client de consulter un catalogue, de voir les details des produits, d'ajouter des articles au panier, de passer une commande et de suivre son etat.</p>
+    <p>Le projet ne se limite pas a une simple vitrine. Il integre aussi une partie administration permettant au responsable du magasin de gerer le catalogue, les clients, les commandes et les paiements. Cette separation entre interface client et interface administrateur rend le systeme plus complet et plus proche d'une application professionnelle.</p>
+    <p>Le choix de Bankily B-pay est important, car il adapte le projet au contexte local. Au lieu d'utiliser uniquement des solutions internationales comme Stripe, le projet propose un flux de paiement manuel avec validation par l'administrateur.</p>
+    <div class="note">Le but principal est de proposer une solution simple pour le client, mais assez complete pour le gestionnaire du magasin.</div>
+    <div class="page-fill">
+      <div class="card"><span>Décision</span><strong>Construire une boutique complète, pas seulement une page vitrine.</strong><p>Le projet couvre le catalogue, le panier, les commandes, le paiement et l'administration.</p></div>
+      <div class="card"><span>Impact</span><strong>Une base utilisable pour un vrai commerce local.</strong><p>Le magasin peut recevoir des commandes et suivre les paiements dans un espace dédié.</p></div>
+    </div>
+    <span class="page-no">Page 3</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Contexte</div>
+    <h1>2. Contexte et problématique</h1>
+    <p>Dans beaucoup de petits commerces, la vente en ligne reste difficile a mettre en place. Le commercant a besoin d'une solution simple pour publier ses produits, recevoir des commandes et verifier les paiements. Le client, lui, souhaite une experience rapide et claire.</p>
+    <p>Le probleme principal est donc de construire un site qui soit facile a utiliser, sans compliquer le parcours d'achat. Le client doit pouvoir parcourir les produits sans etre oblige de creer un compte immediatement. La connexion devient necessaire seulement au moment du checkout, lorsque le site doit enregistrer l'identite du client et son adresse.</p>
+    <p>Un autre probleme est le paiement. Les solutions automatiques ne sont pas toujours disponibles ou faciles a integrer. Pour cette raison, le projet utilise un systeme Bankily B-pay manuel : le client paie, puis saisit un code que l'administrateur peut verifier.</p>
+    <div class="page-fill">
+      <div class="card"><span>Besoin client</span><strong>Un achat rapide sans inscription obligatoire au départ.</strong><p>Le compte devient nécessaire seulement quand la commande doit être enregistrée.</p></div>
+      <div class="card"><span>Besoin admin</span><strong>Un contrôle clair sur les commandes et les paiements.</strong><p>Le dashboard donne les informations nécessaires pour accepter ou refuser un paiement.</p></div>
+    </div>
+    <span class="page-no">Page 4</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Objectifs</div>
+    <h1>3. Objectifs fonctionnels</h1>
+    <p>Les objectifs fonctionnels de Beauty Store concernent les actions que le client et l'administrateur peuvent effectuer.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Cote client</h3>
+        <ul>
+          <li>Consulter les produits.</li>
+          <li>Voir les details d'un produit.</li>
+          <li>Ajouter au panier sans compte.</li>
+          <li>Modifier la quantite.</li>
+          <li>Creer un compte au checkout.</li>
+          <li>Payer avec Bankily B-pay.</li>
+          <li>Suivre ses commandes.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Cote administrateur</h3>
+        <ul>
+          <li>Gerer les produits.</li>
+          <li>Gerer les categories.</li>
+          <li>Voir les commandes.</li>
+          <li>Accepter ou refuser les paiements.</li>
+          <li>Changer le statut des commandes.</li>
+          <li>Consulter les statistiques.</li>
+          <li>Gerer les utilisateurs.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="page-fill">
+      <div class="card"><span>Priorité</span><strong>Réduire la friction dans le parcours d'achat.</strong><p>Le visiteur peut naviguer et remplir son panier avant la connexion.</p></div>
+      <div class="card"><span>Administration</span><strong>Centraliser les actions importantes.</strong><p>Les produits, commandes, paiements et utilisateurs sont regroupés dans une zone admin.</p></div>
+    </div>
+    <span class="page-no">Page 5</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Objectifs techniques</div>
+    <h1>4. Objectifs techniques</h1>
+    <p>Le projet doit etre organise de maniere claire pour faciliter la maintenance. Le backend doit exposer des routes API propres, tandis que le frontend doit consommer ces routes avec un client API centralise.</p>
+    <ul>
+      <li>Utiliser une base MySQL comme base principale.</li>
+      <li>Gerer les schemas de base avec Alembic.</li>
+      <li>Proteger les routes sensibles avec JWT.</li>
+      <li>Separer les pages client des pages administrateur.</li>
+      <li>Stocker les images produits cote backend.</li>
+      <li>Permettre un lancement local simple avec un script de developpement.</li>
+      <li>Prevoir une structure qui peut evoluer vers le deploiement.</li>
+    </ul>
+    <p>Ces objectifs techniques evitent d'avoir un projet difficile a modifier. Ils donnent aussi une base plus solide pour le travail en equipe.</p>
+    <div class="page-fill">
+      <div class="card"><span>Organisation</span><strong>Chaque partie du projet a une responsabilité claire.</strong><p>Le backend gère les données, le frontend gère l'expérience utilisateur.</p></div>
+      <div class="card"><span>Évolution</span><strong>La structure peut grandir sans devoir tout réécrire.</strong><p>De nouvelles pages ou routes peuvent être ajoutées dans les dossiers existants.</p></div>
+    </div>
+    <span class="page-no">Page 6</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Technologies</div>
+    <h1>5. Choix technologiques</h1>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Backend</h3>
+        <p>FastAPI a ete choisi pour sa rapidite, sa simplicite et sa documentation automatique. SQLAlchemy permet de travailler avec la base de donnees en utilisant des modeles Python. Alembic permet de gerer les migrations.</p>
+      </div>
+      <div class="card">
+        <h3>Frontend</h3>
+        <p>React permet de construire une interface dynamique. Vite rend le developpement plus rapide. Les pages sont separees en deux parties : website et admin.</p>
+      </div>
+    </div>
+    <table>
+      <tr><th>Element</th><th>Technologie</th><th>Role</th></tr>
+      <tr><td>API</td><td>FastAPI</td><td>Routes backend et logique metier</td></tr>
+      <tr><td>Base de donnees</td><td>MySQL</td><td>Stockage principal</td></tr>
+      <tr><td>Frontend</td><td>React</td><td>Interface utilisateur</td></tr>
+      <tr><td>Tests E2E</td><td>Playwright</td><td>Verification du parcours navigateur</td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Pourquoi FastAPI</span><strong>Rapide, lisible et adapté aux API modernes.</strong><p>La documentation automatique aide aussi pendant les tests et l'intégration frontend.</p></div>
+      <div class="card"><span>Pourquoi React</span><strong>Composants réutilisables et interface dynamique.</strong><p>Le site client et le dashboard peuvent partager les mêmes helpers API.</p></div>
+    </div>
+    <span class="page-no">Page 7</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Architecture</div>
+    <h1>6. Architecture globale</h1>
+    <p>L'architecture repose sur une communication entre le frontend React et le backend FastAPI. Le frontend envoie des requetes HTTP vers les endpoints du backend. Le backend traite les donnees, communique avec MySQL, puis retourne une reponse JSON.</p>
+    <div class="flow">
+      <div>Le client utilise l'interface React.</div>
+      <div>React appelle une route API via le client API partage.</div>
+      <div>FastAPI valide la demande et applique la logique metier.</div>
+      <div>SQLAlchemy lit ou modifie la base MySQL.</div>
+      <div>La reponse JSON est retournee au frontend.</div>
+      <div>L'interface est mise a jour pour l'utilisateur.</div>
+    </div>
+    <p>Cette architecture separe correctement l'affichage, la logique metier et le stockage.</p>
+    <div class="page-fill">
+      <div class="card"><span>Flux principal</span><strong>Le navigateur ne parle jamais directement à la base.</strong><p>Il passe par l'API, ce qui permet de valider et sécuriser les actions.</p></div>
+      <div class="card"><span>Résultat</span><strong>Une séparation propre entre interface, logique et données.</strong><p>Cette séparation simplifie le debug et les futures améliorations.</p></div>
+    </div>
+    <span class="page-no">Page 8</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Backend</div>
+    <h1>7. Architecture backend</h1>
+    <p>Le backend est organise en plusieurs dossiers. Chaque dossier a une responsabilite precise, ce qui rend le code plus lisible.</p>
+    <table>
+      <tr><th>Dossier</th><th>Role</th></tr>
+      <tr><td><code>app/models</code></td><td>Definition des tables : users, products, orders, payments...</td></tr>
+      <tr><td><code>app/schemas</code></td><td>Validation des donnees envoyees ou retournees.</td></tr>
+      <tr><td><code>app/routes</code></td><td>Endpoints API pour auth, cart, orders, payments, admin.</td></tr>
+      <tr><td><code>app/utils</code></td><td>Fonctions communes : auth, validators, helpers.</td></tr>
+      <tr><td><code>uploads/products</code></td><td>Stockage des images produits.</td></tr>
+    </table>
+    <p>Le fichier <code>app/main.py</code> rassemble les routers, active CORS, monte le dossier uploads et configure le logging.</p>
+    <div class="page-fill">
+      <div class="card"><span>Point fort</span><strong>Les routes sont séparées par domaine métier.</strong><p>Chaque fichier route reste plus simple à lire et à maintenir.</p></div>
+      <div class="card"><span>Images</span><strong>Les fichiers produits sont servis par le backend.</strong><p>La base garde seulement le chemin, ce qui évite de stocker de gros fichiers en SQL.</p></div>
+    </div>
+    <span class="page-no">Page 9</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Routes API</div>
+    <h1>8. Routes principales</h1>
+    <p>Les routes API couvrent les besoins de l'application. Elles sont separees par domaine fonctionnel.</p>
+    <table>
+      <tr><th>Domaine</th><th>Exemples de routes</th></tr>
+      <tr><td>Auth</td><td><code>/api/auth/login</code>, <code>/api/auth/register</code>, <code>/api/auth/me</code></td></tr>
+      <tr><td>Produits</td><td><code>/api/products/</code>, <code>/api/products/{id}</code></td></tr>
+      <tr><td>Panier</td><td><code>/api/cart</code>, <code>/api/cart/add</code>, <code>/api/cart/update/{id}</code></td></tr>
+      <tr><td>Commandes</td><td><code>/api/orders</code>, <code>/api/orders/create</code></td></tr>
+      <tr><td>Paiements</td><td><code>/api/payments/submit</code>, <code>/api/payments/admin/pending</code></td></tr>
+      <tr><td>Admin</td><td><code>/api/admin/dashboard</code>, <code>/api/admin/reports</code></td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Lisibilité</span><strong>Les endpoints suivent une logique par ressource.</strong><p>Auth, products, cart, orders, payments et admin restent faciles à trouver.</p></div>
+      <div class="card"><span>Contrôle</span><strong>Les routes sensibles demandent un token valide.</strong><p>Les routes admin vérifient aussi le rôle de l'utilisateur.</p></div>
+    </div>
+    <span class="page-no">Page 10</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Frontend</div>
+    <h1>9. Architecture frontend</h1>
+    <p>Le frontend est organise en trois zones. Cette separation evite de melanger le code du site client avec celui du tableau de bord.</p>
+    <div class="grid-3">
+      <div class="card"><span>website</span><strong>Pages client : accueil, shop, panier, checkout, commandes.</strong></div>
+      <div class="card"><span>admin</span><strong>Dashboard, produits, commandes, paiements, clients.</strong></div>
+      <div class="card"><span>shared</span><strong>API client, contextes, helpers et donnees partagees.</strong></div>
+    </div>
+    <p>Le fichier <code>App.jsx</code> definit les routes principales. Les pages admin sont protegees par <code>AdminProtectedRoute</code>, tandis que les pages client sensibles utilisent <code>ProtectedRoute</code>.</p>
+    <div class="page-fill">
+      <div class="card"><span>Website</span><strong>Partie visible par le client.</strong><p>Elle contient l'accueil, le shop, le panier, le checkout et les commandes.</p></div>
+      <div class="card"><span>Admin</span><strong>Partie réservée à la gestion du magasin.</strong><p>Elle est séparée pour éviter de mélanger les responsabilités dans le code.</p></div>
+    </div>
+    <span class="page-no">Page 11</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">UI/UX</div>
+    <h1>10. Design et expérience utilisateur</h1>
+    <p>Le design du site est inspire d'un univers doux et premium. Les couleurs roses, les fonds clairs et les images de produits donnent une identite visuelle adaptee a une boutique de beaute.</p>
+    <p>Le parcours client est volontairement simple. L'utilisateur peut consulter les produits et remplir son panier sans compte. Cette decision reduit la friction et donne plus de liberte au visiteur.</p>
+    <ul>
+      <li>Navigation claire : Home, Shop, My Orders, About.</li>
+      <li>Boutons visibles pour les actions principales.</li>
+      <li>Images produits affichees sans etre coupees.</li>
+      <li>Dashboard admin separe du site client.</li>
+      <li>Affichage responsive pour desktop et mobile.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Style</span><strong>Une identité douce, claire et premium.</strong><p>Les couleurs roses et les typographies élégantes correspondent au domaine beauté.</p></div>
+      <div class="card"><span>Ergonomie</span><strong>Les actions importantes restent visibles.</strong><p>Les boutons Shop, Add to cart, Checkout et Review sont placés au bon moment du parcours.</p></div>
+    </div>
+    <span class="page-no">Page 12</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Donnees</div>
+    <h1>11. Modèle de données</h1>
+    <p>La base de donnees est construite autour des entites principales du commerce electronique.</p>
+    <table>
+      <tr><th>Table</th><th>Description</th></tr>
+      <tr><td>users</td><td>Informations des clients et administrateurs.</td></tr>
+      <tr><td>products</td><td>Nom, description, prix, stock, image et categorie.</td></tr>
+      <tr><td>categories</td><td>Classification des produits.</td></tr>
+      <tr><td>cart_items</td><td>Produits presents dans le panier utilisateur.</td></tr>
+      <tr><td>orders</td><td>Commande, total, statut, adresse.</td></tr>
+      <tr><td>order_items</td><td>Lignes de commande avec quantite et prix unitaire.</td></tr>
+      <tr><td>payments</td><td>Paiement Bankily, code B-pay, statut et note admin.</td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Relation clé</span><strong>Une commande contient plusieurs lignes de commande.</strong><p>Cette structure garde l'historique exact des produits et des prix au moment de l'achat.</p></div>
+      <div class="card"><span>Paiement</span><strong>Le paiement est lié à la commande.</strong><p>Cela permet de savoir quelle commande attend une validation Bankily.</p></div>
+    </div>
+    <span class="page-no">Page 13</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Produits</div>
+    <h1>12. Gestion des produits</h1>
+    <p>Les produits sont au centre du projet. Chaque produit possede un nom, une description, un prix, un stock, une categorie et une image.</p>
+    <p>Les images produits sont stockees cote backend dans <code>backend/uploads/products</code>. La base de donnees ne garde que le chemin, comme <code>/uploads/products/hydra-gentle-cleansing-foam.png</code>.</p>
+    <p>Cette approche facilite l'affichage dans le frontend et evite de stocker les fichiers binaires dans la base. Elle reste simple pour un premier deploiement.</p>
+    <div class="note">Pour un projet plus grand, un stockage cloud comme Cloudinary ou S3 serait plus robuste.</div>
+    <div class="page-fill">
+      <div class="card"><span>Catalogue</span><strong>Les produits viennent de la base principale.</strong><p>Le site n'est plus limité à des données statiques dans le frontend.</p></div>
+      <div class="card"><span>Maintenance</span><strong>Changer une image ne demande pas de modifier React.</strong><p>L'administrateur peut gérer les produits côté backend.</p></div>
+    </div>
+    <span class="page-no">Page 14</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Parcours client</div>
+    <h1>13. Parcours utilisateur</h1>
+    <p>Le parcours client commence par la page d'accueil. Le client peut ensuite acceder a la page Shop, consulter un produit et l'ajouter au panier.</p>
+    <div class="flow">
+      <div>Le client arrive sur la page d'accueil.</div>
+      <div>Il clique sur Shop ou consulte les produits mis en avant.</div>
+      <div>Il ouvre une page detail produit.</div>
+      <div>Il choisit une quantite et ajoute au panier.</div>
+      <div>Il consulte le panier et verifie le total.</div>
+      <div>Il se connecte uniquement au moment du checkout.</div>
+      <div>Il finalise la commande avec Bankily B-pay.</div>
+    </div>
+    <div class="page-fill">
+      <div class="card"><span>Parcours</span><strong>Le client avance étape par étape.</strong><p>Chaque page prépare l'action suivante sans demander trop d'informations trop tôt.</p></div>
+      <div class="card"><span>Connexion</span><strong>Elle intervient au moment utile.</strong><p>Le client ne crée un compte que lorsque la commande doit être enregistrée.</p></div>
+    </div>
+    <span class="page-no">Page 15</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Panier</div>
+    <h1>14. Logique du panier</h1>
+    <p>Le panier a ete concu pour fonctionner meme sans compte utilisateur. Si le visiteur n'est pas connecte, les produits ajoutes sont conserves dans le navigateur. Cela permet de ne pas bloquer le client au debut du parcours.</p>
+    <p>Quand l'utilisateur se connecte, le panier local peut etre synchronise avec le backend. Cette logique donne une experience plus fluide, car le client ne perd pas les produits selectionnes avant la connexion.</p>
+    <ul>
+      <li>Ajouter un produit au panier.</li>
+      <li>Modifier la quantite.</li>
+      <li>Supprimer un article.</li>
+      <li>Calculer le total.</li>
+      <li>Passer au checkout.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Panier invité</span><strong>Le visiteur peut préparer son achat sans compte.</strong><p>Cette décision améliore l'expérience et réduit l'abandon au début.</p></div>
+      <div class="card"><span>Synchronisation</span><strong>Le panier peut ensuite être envoyé au backend.</strong><p>Après connexion, la commande peut être créée avec les articles sélectionnés.</p></div>
+    </div>
+    <span class="page-no">Page 16</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Checkout</div>
+    <h1>15. Checkout et création de commande</h1>
+    <p>Le checkout est l'etape ou le client doit etre connecte. Cette obligation est logique, car il faut enregistrer la commande avec un utilisateur, une adresse et un contact.</p>
+    <p>Le client saisit son adresse, sa ville, son numero Bankily et le code B-pay. Le backend utilise ces informations pour creer une commande et un paiement en attente de verification.</p>
+    <p>Apres creation de la commande, le panier est vide et le client peut consulter le suivi dans My Orders.</p>
+    <div class="note">Le numero Bankily est demande au checkout afin de faciliter la verification du paiement.</div>
+    <div class="page-fill">
+      <div class="card"><span>Validation</span><strong>Les informations de livraison sont collectées au bon moment.</strong><p>Adresse, téléphone et code B-pay deviennent nécessaires seulement à la finalisation.</p></div>
+      <div class="card"><span>Après commande</span><strong>Le client retrouve sa commande dans My Orders.</strong><p>Il peut suivre le statut sans contacter directement le magasin.</p></div>
+    </div>
+    <span class="page-no">Page 17</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Paiement</div>
+    <h1>16. Paiement Bankily B-pay</h1>
+    <p>Le paiement Bankily B-pay n'est pas automatique dans cette version. Le client paie depuis l'application Bankily, puis entre le code B-pay dans le site.</p>
+    <p>Le backend valide que le code contient quatre chiffres, puis cree un enregistrement de paiement avec le statut <code>under_review</code>. L'administrateur doit ensuite comparer les informations et accepter ou refuser le paiement.</p>
+    <table>
+      <tr><th>Statut</th><th>Signification</th></tr>
+      <tr><td>under_review</td><td>Le paiement attend la validation admin.</td></tr>
+      <tr><td>success</td><td>Le paiement est accepte.</td></tr>
+      <tr><td>rejected</td><td>Le paiement est refuse.</td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Contrôle manuel</span><strong>L'admin garde la décision finale.</strong><p>Le système convient à un paiement local sans API automatique.</p></div>
+      <div class="card"><span>Règle importante</span><strong>Le code B-pay doit contenir quatre chiffres.</strong><p>Cette validation évite les entrées inutilisables avant la revue admin.</p></div>
+    </div>
+    <span class="page-no">Page 18</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Admin</div>
+    <h1>17. Tableau de bord administrateur</h1>
+    <p>Le tableau de bord donne une vision generale du magasin. Il affiche les commandes, le revenu, les clients, les statistiques et les commandes recentes.</p>
+    <p>L'acces au dashboard est protege. Seuls les utilisateurs avec le role <code>admin</code> peuvent y acceder. Si un client tente d'ouvrir une page admin, il est bloque.</p>
+    <ul>
+      <li>Dashboard : statistiques principales.</li>
+      <li>Products : gestion du catalogue.</li>
+      <li>Orders : suivi et changement des statuts.</li>
+      <li>Payments : validation des codes B-pay.</li>
+      <li>Customers : gestion des utilisateurs.</li>
+      <li>Attributes : gestion des categories.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Accès</span><strong>Le dashboard est réservé au rôle admin.</strong><p>Le bouton Dashboard apparaît uniquement pour les administrateurs connectés.</p></div>
+      <div class="card"><span>Objectif</span><strong>Voir rapidement l'état du magasin.</strong><p>Statistiques, commandes récentes et paiements en attente sont regroupés.</p></div>
+    </div>
+    <span class="page-no">Page 19</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Commandes admin</div>
+    <h1>18. Gestion des commandes</h1>
+    <p>La page admin Orders permet de voir toutes les commandes. Le bouton View ouvre les details de la commande, notamment le client, le total, le statut, l'adresse et les produits.</p>
+    <p>Le changement de statut est limite par un workflow pour eviter les erreurs. Par exemple, une commande payee peut devenir shipped, puis delivered. Une commande pending peut etre annulee.</p>
+    <table>
+      <tr><th>Statut actuel</th><th>Statut suivant possible</th></tr>
+      <tr><td>pending</td><td>cancelled</td></tr>
+      <tr><td>paid</td><td>shipped</td></tr>
+      <tr><td>shipped</td><td>delivered</td></tr>
+      <tr><td>delivered</td><td>Aucun</td></tr>
+      <tr><td>cancelled</td><td>Aucun</td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Workflow</span><strong>Les statuts ne changent pas n'importe comment.</strong><p>Le passage d'un état à l'autre suit des règles pour éviter les incohérences.</p></div>
+      <div class="card"><span>Détail</span><strong>Le bouton View sert à inspecter la commande.</strong><p>L'administrateur peut voir les produits, le client, l'adresse et le total.</p></div>
+    </div>
+    <span class="page-no">Page 20</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Paiements admin</div>
+    <h1>19. Gestion des paiements</h1>
+    <p>La page Payments est reservee a la validation des paiements Bankily. Elle affiche les paiements en attente, le code B-pay, le montant et l'identifiant de commande.</p>
+    <p>L'administrateur peut cliquer sur Approve si le paiement est verifie, ou Reject si les informations ne correspondent pas. Cette action met a jour le statut du paiement et influence l'etat de la commande.</p>
+    <div class="flow">
+      <div>Le client soumet un code B-pay.</div>
+      <div>Le paiement apparait dans la page Payments.</div>
+      <div>L'administrateur verifie manuellement.</div>
+      <div>Il accepte ou refuse la demande.</div>
+      <div>Le client peut voir l'evolution de sa commande.</div>
+    </div>
+    <div class="page-fill">
+      <div class="card"><span>Approve</span><strong>Le paiement devient validé.</strong><p>La commande peut ensuite passer au traitement et à l'expédition.</p></div>
+      <div class="card"><span>Reject</span><strong>Le paiement reste refusé avec une raison possible.</strong><p>Cela permet de corriger une erreur ou de demander au client de vérifier le paiement.</p></div>
+    </div>
+    <span class="page-no">Page 21</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Securite</div>
+    <h1>20. Sécurité de l'application</h1>
+    <p>La securite est presente a plusieurs niveaux. Les mots de passe ne sont pas stockes en clair : ils sont haches avec bcrypt. L'authentification utilise JWT, ce qui permet au frontend d'envoyer un token aux routes protegees.</p>
+    <ul>
+      <li>Protection des routes admin.</li>
+      <li>Validation des donnees avec Pydantic.</li>
+      <li>Limitation simple sur login/register.</li>
+      <li>Logout avec revocation du token en memoire.</li>
+      <li>Restriction du type et de la taille des images.</li>
+    </ul>
+    <div class="note">Pour une production avec plusieurs serveurs, il est recommande d'utiliser Redis pour les tokens revoques et le rate limit.</div>
+    <div class="page-fill">
+      <div class="card"><span>Authentification</span><strong>Les routes protégées utilisent JWT.</strong><p>Le frontend envoie le token pour accéder aux informations privées.</p></div>
+      <div class="card"><span>Protection</span><strong>Les données entrantes sont validées.</strong><p>Pydantic limite les erreurs de format avant la logique métier.</p></div>
+    </div>
+    <span class="page-no">Page 22</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Tests</div>
+    <h1>21. Tests et validation</h1>
+    <p>Le projet contient des tests backend et frontend. Les tests backend utilisent une base SQLite en memoire, ce qui permet de tester sans modifier la base MySQL principale.</p>
+    <p>Les tests frontend utilisent Playwright. Ils permettent de simuler un utilisateur dans le navigateur et de verifier les parcours importants, comme l'ajout au panier et le checkout.</p>
+    <table>
+      <tr><th>Type</th><th>Outil</th><th>Objectif</th></tr>
+      <tr><td>Backend</td><td>unittest</td><td>Verifier les routes et la logique API.</td></tr>
+      <tr><td>Frontend</td><td>Playwright</td><td>Tester le parcours utilisateur dans le navigateur.</td></tr>
+      <tr><td>Build</td><td>Vite</td><td>Verifier que le frontend compile correctement.</td></tr>
+    </table>
+    <div class="page-fill">
+      <div class="card"><span>Tests API</span><strong>Ils vérifient les routes principales.</strong><p>Ils aident à détecter les erreurs backend avant l'utilisation dans le navigateur.</p></div>
+      <div class="card"><span>Tests navigateur</span><strong>Ils reproduisent le comportement réel d'un client.</strong><p>Playwright contrôle le site comme un utilisateur, clic par clic.</p></div>
+    </div>
+    <span class="page-no">Page 23</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Performance</div>
+    <h1>22. Performance et organisation</h1>
+    <p>Le projet prend en compte la performance a travers une separation claire des pages, l'utilisation de Vite pour un build rapide et le chargement des produits depuis l'API avec des limites de pagination.</p>
+    <p>Les images produits sont affichees avec <code>object-fit: contain</code> afin d'eviter qu'elles soient coupees. Les pages principales ont aussi ete compactees pour limiter le scroll inutile.</p>
+    <ul>
+      <li>Frontend build rapide avec Vite.</li>
+      <li>API paginee avec skip et limit.</li>
+      <li>Images stockees sous forme de fichiers et non en base.</li>
+      <li>Separation admin/client pour reduire la confusion dans le code.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Vitesse</span><strong>Vite garde un développement rapide.</strong><p>Le rechargement local et le build sont adaptés au travail frontend quotidien.</p></div>
+      <div class="card"><span>Lisibilité</span><strong>La séparation des dossiers réduit la charge mentale.</strong><p>Un développeur peut travailler sur admin ou website sans toucher à tout.</p></div>
+    </div>
+    <span class="page-no">Page 24</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Deploiement</div>
+    <h1>23. Préparation au déploiement</h1>
+    <p>Pour deployer le projet, il faut preparer le backend, le frontend, la base de donnees et le dossier des images. Le backend doit avoir un fichier d'environnement de production avec la bonne URL MySQL, la cle secrete et les informations Bankily.</p>
+    <p>Le frontend doit etre construit avec <code>npm run build</code>. Le dossier genere peut ensuite etre servi par un hebergeur frontend ou par un serveur web.</p>
+    <ul>
+      <li>Configurer <code>DATABASE_URL</code>.</li>
+      <li>Executer les migrations Alembic.</li>
+      <li>Verifier le dossier <code>uploads/products</code>.</li>
+      <li>Construire le frontend.</li>
+      <li>Configurer CORS selon le domaine final.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Backend</span><strong>La production demande des variables d'environnement propres.</strong><p>Les secrets, la base et CORS ne doivent pas rester en configuration locale.</p></div>
+      <div class="card"><span>Frontend</span><strong>Le build doit pointer vers l'URL API finale.</strong><p>La variable <code>VITE_API_URL</code> devient importante au déploiement.</p></div>
+    </div>
+    <span class="page-no">Page 25</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Limites</div>
+    <h1>24. Limites actuelles</h1>
+    <p>Le projet est fonctionnel, mais certaines limites restent presentes. Le paiement Bankily est encore manuel. Cela fonctionne pour un petit magasin, mais demande une verification humaine.</p>
+    <p>Le stockage des images dans le dossier backend est simple, mais il faudra prevoir des sauvegardes si le projet passe en production. Une solution cloud serait plus securisee a long terme.</p>
+    <ul>
+      <li>Paiement non automatique.</li>
+      <li>Dashboard encore perfectible.</li>
+      <li>Besoin de plus de tests end-to-end.</li>
+      <li>Besoin d'une strategie de sauvegarde des images.</li>
+      <li>Besoin d'une configuration production plus complete.</li>
+    </ul>
+    <div class="page-fill">
+      <div class="card"><span>Risque principal</span><strong>Le paiement manuel demande une action humaine.</strong><p>C'est acceptable au début, mais moins efficace quand le nombre de commandes augmente.</p></div>
+      <div class="card"><span>Images</span><strong>Les fichiers doivent être sauvegardés.</strong><p>En production, perdre le dossier uploads signifie perdre les images produits.</p></div>
+    </div>
+    <span class="page-no">Page 26</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Ameliorations</div>
+    <h1>25. Améliorations futures</h1>
+    <p>Plusieurs ameliorations peuvent etre ajoutees apres la version actuelle. La plus importante serait l'integration automatique du paiement si Bankily propose une API officielle.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Court terme</h3>
+        <ul>
+          <li>Ajouter plus de tests.</li>
+          <li>Ameliorer les messages d'erreur.</li>
+          <li>Optimiser le dashboard.</li>
+          <li>Ajouter des filtres produits.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Long terme</h3>
+        <ul>
+          <li>Paiement automatique.</li>
+          <li>Stockage cloud des images.</li>
+          <li>Notifications email/SMS.</li>
+          <li>Docker et CI/CD.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="page-fill">
+      <div class="card"><span>Court terme</span><strong>Stabiliser l'existant.</strong><p>Ajouter des tests, améliorer les messages et vérifier les parcours principaux.</p></div>
+      <div class="card"><span>Long terme</span><strong>Automatiser et industrialiser.</strong><p>Paiement automatique, stockage cloud, Docker et CI/CD rendent le projet plus professionnel.</p></div>
+    </div>
+    <span class="page-no">Page 27</span>
+  </section>
+
+  <section class="sheet">
+    <div class="page-head">Conclusion</div>
+    <h1>26. Conclusion</h1>
+    <p>Beauty Store est une application e-commerce complete adaptee a la vente de produits de beaute. Elle contient une interface client moderne, un panier, un systeme de commande, un paiement Bankily B-pay avec validation manuelle et un tableau de bord administrateur.</p>
+    <p>La structure du projet est claire : backend, frontend client, frontend admin et fichiers partages. Cette organisation facilite l'evolution du projet et le travail en equipe.</p>
+    <p>Le projet peut deja servir de base solide pour une boutique en ligne reelle. Les prochaines etapes concernent surtout le deploiement, les tests, l'automatisation du paiement et l'amelioration du dashboard.</p>
+    <div class="note">En resume, Beauty Store est un projet bien structure, utile, evolutif et adapte au contexte local.</div>
+    <div class="page-fill">
+      <div class="card"><span>Bilan</span><strong>Le projet répond aux besoins essentiels d'une boutique.</strong><p>Il couvre l'achat côté client et la gestion côté administrateur.</p></div>
+      <div class="card"><span>Suite</span><strong>La priorité suivante est la mise en production propre.</strong><p>Elle passe par la configuration serveur, la sauvegarde des images et plus de tests.</p></div>
+    </div>
+    <span class="page-no">Page 28</span>
+  </section>
+</body>
+</html>

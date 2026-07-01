@@ -22,52 +22,90 @@ DEMO_PASSWORD = {
 
 PRODUCTS = [
     {
-        "name": "Rose Glow Serum",
-        "category": "Skincare",
-        "description": "Light serum for radiant daily hydration.",
-        "price": 4500,
-        "stock": 18,
-        "image_url": "/file_00000000024471f4824f92dd1a4e6d44.png",
+        "legacy_name": "Rose Glow Serum",
+        "name": "Hydra-Gentle Cleansing Foam",
+        "category": "Cleanser",
+        "description": "Arabic name: رغوة الهيدرا اللطيفة. A soft daily cleansing foam that refreshes skin without stripping moisture.",
+        "price": 3900,
+        "stock": 24,
+        "image_url": "/uploads/products/hydra-gentle-cleansing-foam.png",
     },
     {
-        "name": "Gold Eye Cream",
-        "category": "Skincare",
-        "description": "Soft eye cream for a fresh under-eye look.",
-        "price": 6800,
+        "legacy_name": "Gold Eye Cream",
+        "name": "Glow Radiance Toner",
+        "category": "Toner",
+        "description": "Arabic name: تونر غلو راديانس. A lightweight toner that helps prepare skin for a brighter, smoother routine.",
+        "price": 4200,
+        "stock": 20,
+        "image_url": "/uploads/products/glow-radiance-toner.png",
+    },
+    {
+        "legacy_name": "Velvet Lipstick",
+        "name": "Super Radiance Vitamin C Serum",
+        "category": "Serum",
+        "description": "Arabic name: سيروم النضارة الفائقة - فيتامين سي. A vitamin C serum for a fresher-looking complexion and daily glow support.",
+        "price": 6900,
+        "stock": 16,
+        "image_url": "/uploads/products/super-radiance-vitamin-c-serum.png",
+    },
+    {
+        "legacy_name": "Hyaluronic Acid Serum",
+        "name": "Intense Hyaluronic Elixir",
+        "category": "Hydration",
+        "description": "Arabic name: إكسير الهيالورونيك المكثف. An intensive hyaluronic care product designed to leave skin feeling plump and hydrated.",
+        "price": 6400,
+        "stock": 14,
+        "image_url": "/uploads/products/intense-hyaluronic-elixir.png",
+    },
+    {
+        "legacy_name": "Nourishing Hair Mask",
+        "name": "Retinol Renewal Serum",
+        "category": "Serum",
+        "description": "Arabic name: سيروم الريتينول لتجديد البشرة. A renewal serum with retinol to support a smoother and more refined skin look.",
+        "price": 7200,
         "stock": 12,
-        "image_url": "/file_000000002fb071f4846f3e2aef16d40d.png",
+        "image_url": "/uploads/products/retinol-renewal-serum.png",
     },
     {
-        "name": "Velvet Lipstick",
-        "category": "Makeup",
-        "description": "Creamy lipstick with a soft velvet finish.",
-        "price": 2900,
-        "stock": 25,
-        "image_url": "/file_000000004c4871f491e266b7761a04f7.png",
+        "legacy_name": "Collagen Boosting Cream",
+        "name": "Velvet Moisture Cream",
+        "category": "Moisturizer",
+        "description": "Arabic name: كريم الترطيب المخملي. A velvet-feel moisture cream for soft, comfortable daily hydration.",
+        "price": 5200,
+        "stock": 18,
+        "image_url": "/uploads/products/velvet-moisture-cream.png",
     },
     {
-        "name": "Hyaluronic Acid Serum",
-        "category": "Skincare",
-        "description": "Hydrating serum for smooth glowing skin.",
-        "price": 5900,
+        "name": "Hydra-Boost Refreshing Gel",
+        "category": "Hydration",
+        "description": "Arabic name: جل هيدرا بوست المنعش. A refreshing water-gel product for a clean, cool, hydrated skin feel.",
+        "price": 4800,
+        "stock": 21,
+        "image_url": "/uploads/products/hydra-boost-refreshing-gel.png",
+    },
+    {
+        "name": "Caffeine Brightening Eye Cream",
+        "category": "Eye Care",
+        "description": "Arabic name: كريم العين المفتح بالكافيين. A caffeine eye cream made for tired-looking under-eyes and brighter daily care.",
+        "price": 4500,
         "stock": 15,
-        "image_url": "/file_000000004e3c71f4b89cdba210b3c5b6.png",
+        "image_url": "/uploads/products/caffeine-brightening-eye-cream.png",
     },
     {
-        "name": "Nourishing Hair Mask",
-        "category": "Hair Care",
-        "description": "Rich mask for soft and nourished hair.",
-        "price": 4900,
-        "stock": 9,
-        "image_url": "/file_00000000a0c071f48d3ada2e41d3f6ad.png",
+        "name": "Detoxifying Clay Mask",
+        "category": "Mask",
+        "description": "Arabic name: قناع الطين المنقي للسموم. A detoxifying clay mask that helps cleanse the look of daily buildup.",
+        "price": 5000,
+        "stock": 13,
+        "image_url": "/uploads/products/detoxifying-clay-mask.png",
     },
     {
-        "name": "Collagen Boosting Cream",
-        "category": "Skincare",
-        "description": "Daily cream with a smooth collagen-care feel.",
-        "price": 5500,
-        "stock": 7,
-        "image_url": "/file_00000000a48871f48d57f1e017fd30b2.png",
+        "name": "Gentle Radiance Scrub",
+        "category": "Exfoliator",
+        "description": "Arabic name: مقشر الإشراق اللطيف. A gentle scrub that smooths skin texture and supports a brighter-looking glow.",
+        "price": 4600,
+        "stock": 17,
+        "image_url": "/uploads/products/gentle-radiance-scrub.png",
     },
 ]
 
@@ -75,31 +113,31 @@ ORDERS = [
     {
         "status": OrderStatus.pending,
         "shipping_address": "Demo Seed Address, Nouakchott",
-        "items": [("Rose Glow Serum", 1), ("Velvet Lipstick", 2)],
+        "items": [("Hydra-Gentle Cleansing Foam", 1), ("Glow Radiance Toner", 1)],
         "payment": None,
     },
     {
         "status": OrderStatus.paid,
         "shipping_address": "Demo Seed Address, Tevragh Zeina",
-        "items": [("Gold Eye Cream", 1)],
+        "items": [("Super Radiance Vitamin C Serum", 1)],
         "payment": PaymentStatus.success,
     },
     {
         "status": OrderStatus.shipped,
         "shipping_address": "Demo Seed Address, Ksar",
-        "items": [("Hyaluronic Acid Serum", 1), ("Nourishing Hair Mask", 1)],
+        "items": [("Intense Hyaluronic Elixir", 1), ("Retinol Renewal Serum", 1)],
         "payment": PaymentStatus.success,
     },
     {
         "status": OrderStatus.delivered,
         "shipping_address": "Demo Seed Address, Arafat",
-        "items": [("Collagen Boosting Cream", 2)],
+        "items": [("Velvet Moisture Cream", 1), ("Hydra-Boost Refreshing Gel", 1)],
         "payment": PaymentStatus.success,
     },
     {
         "status": OrderStatus.cancelled,
         "shipping_address": "Demo Seed Address, Riyadh",
-        "items": [("Velvet Lipstick", 1)],
+        "items": [("Gentle Radiance Scrub", 1)],
         "payment": PaymentStatus.rejected,
     },
 ]
@@ -138,16 +176,20 @@ def upsert_products(db):
         category = get_or_create_category(db, product_data["category"])
         product = db.query(Product).filter(Product.name == product_data["name"]).first()
 
+        if not product and product_data.get("legacy_name"):
+            product = db.query(Product).filter(Product.name == product_data["legacy_name"]).first()
+
         if not product:
             product = Product(name=product_data["name"])
             db.add(product)
 
+        product.name = product_data["name"]
         product.description = product_data["description"]
         product.price = Decimal(str(product_data["price"]))
         product.stock = product_data["stock"]
         product.image_url = product_data["image_url"]
         product.category = category
-        products_by_name[product.name] = product
+        products_by_name[product_data["name"]] = product
 
     db.flush()
     return products_by_name
